@@ -129,3 +129,121 @@ Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` f
 ---
 
 Happy coding!
+
+
+Debug History
+
+以下に、Ramen Project開始からの主なデバッグヒストリーをまとめました。これをベースに`README.md`の問題と解決方法セクションに追加できます。
+
+---
+
+## **Debug History**
+
+### **1. Invalid HTTP_HOST Error**
+**Problem:**
+`Invalid HTTP_HOST header`エラーが発生。Djangoがリクエストされたホストを許可していなかった。
+
+**Solution:**
+`settings.py`の`ALLOWED_HOSTS`に以下を追加：
+```python
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '.codeinstitute-ide.net',  
+    '8000-<your-instance-id>.ws.codeinstitute-ide.net',  # 現在のインスタンスのURL
+]
+```
+
+---
+
+### **2. CSRF Verification Failed**
+**Problem:**
+フォーム送信時に`CSRF verification failed`エラーが発生。
+
+**Solution:**
+`settings.py`に`CSRF_TRUSTED_ORIGINS`を追加：
+```python
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.codeinstitute-ide.net',
+]
+```
+
+---
+
+### **3. `TemplateDoesNotExist` Error**
+**Problem:**
+`TemplateDoesNotExist`エラーが発生し、`base.html`が見つからないと表示された。
+
+**Solution:**
+1. `base.html`を`templates`ディレクトリに正しく配置。
+2. `settings.py`にテンプレートディレクトリを指定：
+```python
+TEMPLATES = [
+    {
+        ...
+        'DIRS': [BASE_DIR / 'templates'],  # templatesディレクトリを指定
+        ...
+    },
+]
+```
+
+---
+
+### **4. NoReverseMatch Error**
+**Problem:**
+`NoReverseMatch`エラーが発生し、URLパターンが見つからないと表示された。
+
+**Solution:**
+1. 各ビューに正しいURLパターン名を設定。
+2. URLを定義した`urls.py`をアプリごとに正確に分離して管理。
+
+---
+
+### **5. ModuleNotFoundError: 'dotenv'**
+**Problem:**
+`ModuleNotFoundError: No module named 'dotenv'`が発生。
+
+**Solution:**
+`python-dotenv`をインストール：
+```bash
+pip install python-dotenv
+```
+
+---
+
+### **6. Django Static Template Management**
+**Problem:**
+Djangoプロジェクト内でのテンプレートファイル（`home.html`, `menu.html`, `reservation.html`など）の配置について混乱。
+
+**Solution:**
+アプリごとのテンプレートディレクトリを利用：
+- `menu/templates/menu/menu.html`
+- `booking/templates/booking/reservation.html`
+
+---
+
+### **7. Admin Panel Issue with Menu**
+**Problem:**
+Cloudinaryの画像アップロード設定が正しく動作せず、メニュー作成時にエラーが発生。
+
+**Solution:**
+`settings.py`にCloudinary設定を追加し、Pillowをインストール：
+```bash
+pip install Pillow
+```
+
+---
+
+### **8. Managing URL Namespaces**
+**Problem:**
+予約ページとメニューのURL名が競合してエラーが発生。
+
+**Solution:**
+各アプリの`urls.py`で名前空間を利用：
+```python
+app_name = 'booking'
+urlpatterns = [
+    path('reservation/', views.reservation_view, name='reservation'),
+]
+```
+
+---
