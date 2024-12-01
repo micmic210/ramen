@@ -3,4 +3,5 @@ cloudinary==1.41.0
 Django==4.2.16
 django-cloudinary-storage==0.3.0
 pillow==11.0.0
+python-dotenv==1.0.1
 sqlparse==0.5.2

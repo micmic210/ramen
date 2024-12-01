@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 from env import CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET 
+
+# Load environment variables
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,8 +30,11 @@ SECRET_KEY = 'django-insecure-p@$+gvjr_i02oga#yb#rkuwiu#1@z%$t05yz(-kpb^yrd=wo!v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '.codeinstitute-ide.net',
+    '8000-micmic210-ramen-s1ucq80s905.ws.codeinstitute-ide.net',
+]
 
 # Application definition
 
@@ -38,10 +45,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
     'menu',
     'booking',
     'contact',
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-micmic210-ramen-s1ucq80s905.ws.codeinstitute-ide.net',
+    'http://127.0.0.1:8000', 
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
